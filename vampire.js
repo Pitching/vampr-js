@@ -7,7 +7,8 @@ class Vampire {
   }
 
   /** Simple tree methods **/
-
+  // test 
+  
   // Adds the vampire as an offspring of this vampire
   addOffspring(vampire) {
     this.offspring.push(vampire);
