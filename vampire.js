@@ -8,7 +8,7 @@ class Vampire {
 
   /** Simple tree methods **/
   // test 
-  
+
   // Adds the vampire as an offspring of this vampire
   addOffspring(vampire) {
     this.offspring.push(vampire);
@@ -60,7 +60,7 @@ class Vampire {
     while (currentVamp.numberOfVampiresFromOriginal !== vampire.numberOfVampiresFromOriginal) {
       if (currentVamp.numberOfVampiresFromOriginal < vampire.numberOfVampiresFromOriginal) {
         vampire = vampire.creator;
-      } else if (currentVamp.numberOfVampiresFromOriginal > vampire.numberOfVampiresFromOriginal){
+      } else if (currentVamp.numberOfVampiresFromOriginal > vampire.numberOfVampiresFromOriginal) {
         currentVamp = currentVamp.creator;
       }
     }
@@ -72,6 +72,53 @@ class Vampire {
 
     return currentVamp;
 
+  }
+
+  // Returns the vampire object with that name, or null if no vampire exists with that name
+  vampireWithName(name) {
+    let vampName;
+
+    if (this.name === name) {
+      return this;
+    }
+
+    for (const child of this.offspring) {
+      vampName = child.vampireWithName(name);
+      if (vampName) {
+        return vampName;
+      }
+    }
+
+    return null;
+  }
+
+  // Returns the total number of vampires that exist
+  get totalDescendents() {
+    let total = 0;
+
+    for (let child of this.offspring) {
+      total += child.totalDescendents;
+    }
+
+    total += this.numberOfOffspring;
+
+    return total;
+  }
+
+  // Returns an array of all the vampires that were converted after 1980
+  get allMillennialVampires() {
+    let millenials = [];
+
+    if (this.yearConverted > 1980) {
+      millenials.push(this);
+    }
+
+    for (let child of this.offspring) {
+      let results = child.allMillennialVampires;
+      millenials = millenials.concat(results);
+    }
+
+    return millenials;
   }
 }
 
